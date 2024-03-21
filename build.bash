@@ -1,0 +1,1 @@
+cc headers.h menu.c dragndrop.c matrix.c MichalsPart.c -lraylib -lGL -lm -lpthread -ldl -lrt -lX11

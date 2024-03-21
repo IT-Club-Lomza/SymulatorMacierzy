@@ -1,10 +1,7 @@
-#include "raylib.h"
+#include "headers.h"
 
 
-int main (void)
-{
-	const int screenWidth = 800;
-	const int screenHeight = 450;
+int michalsPartLoop(void){
 	InitWindow(screenWidth, screenHeight, "wizualizator wektora");
 //-----------------------------------------------------------------	
 	//Prawa kamera 3D
