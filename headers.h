@@ -17,9 +17,10 @@ typedef struct Mouse{
 
 
 //      Matrix module functions
-void initMatrix();
+void initMatrix(int size);
 void drawMatrixFrame();
 void updateMatrixLogic();
+void closeMatrix();
 
 
 //      MichalsPart functions
