@@ -9,6 +9,15 @@ enum screen{
 };
 
 
+//      implement this into your object to make it draggable
+typedef struct DragData{
+    Vector2 position;            //  this is elements dynamic position
+    Vector2 defPosition;         //  this is the default position of the element
+    Rectangle space;             //  this is the elements position comibined with its dimenstions
+    bool dragged;                //  true when element is being dragged
+} DragData;
+
+
 //      Use when working with drag n drop
 typedef struct Mouse{
     bool mouseDraggs;
@@ -28,7 +37,7 @@ int michalsPartLoop(void);
 
 
 //      Drag n drop functions
-int handleDragPosition(Rectangle *space, Vector2 *position, Vector2 defPosition, bool *dragged, bool *mouseDraggs);
+int handleDragPosition(DragData *dragData, bool *mouseDraggs);
 
 
 #endif //HEADERS

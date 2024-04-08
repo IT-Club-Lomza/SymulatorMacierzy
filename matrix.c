@@ -8,10 +8,7 @@ typedef struct Table{
 
 //      thats the box you drag around with your mouse
 typedef struct DragBox{
-    Vector2 position;
-    Vector2 defPosition;
-    Rectangle space;
-    bool dragged;
+    DragData dragData;
 } DragBox;
 
 //      those are the boxes that show up once you drag something with your mouse, they perform calculations when dropped on
@@ -67,22 +64,22 @@ void initMatrix(int size){
 
     //      sets parametrs for dragboxes
     for (int i = 0; i < tableSize; i++){
-        wrapper.dragBox[i].position = (Vector2){wrapper.table[0][i].position.x - 60, wrapper.table[0][i].position.y};
-        wrapper.dragBox[i].defPosition = wrapper.dragBox[i].position;
-        wrapper.dragBox[i].dragged = false;
-        wrapper.dragBox[i].space = (Rectangle){wrapper.dragBox[i].position.x, wrapper.dragBox[i].position.y, 20, 20};
+        wrapper.dragBox[i].dragData.position = (Vector2){wrapper.table[0][i].position.x - 60, wrapper.table[0][i].position.y};
+        wrapper.dragBox[i].dragData.defPosition = wrapper.dragBox[i].dragData.position;
+        wrapper.dragBox[i].dragData.dragged = false;
+        wrapper.dragBox[i].dragData.space = (Rectangle){wrapper.dragBox[i].dragData.position.x, wrapper.dragBox[i].dragData.position.y, 20, 20};
     }
     
     //      sets parametrs for dragslots
     for (int i = 0; i < tableSize; i++){
         wrapper.dragSlot[i][0].operant = 0;
         wrapper.dragSlot[i][0].color = BLUE;
-        wrapper.dragSlot[i][0].position = (Vector2){wrapper.dragBox[i].position.x - 60, wrapper.dragBox[i].position.y};
+        wrapper.dragSlot[i][0].position = (Vector2){wrapper.dragBox[i].dragData.position.x - 60, wrapper.dragBox[i].dragData.position.y};
         wrapper.dragSlot[i][0].space = (Rectangle){wrapper.dragSlot[i][0].position.x, wrapper.dragSlot[i][0].position.y, 20, 20};
     
         wrapper.dragSlot[i][1].operant = 1;
         wrapper.dragSlot[i][1].color = RED;
-        wrapper.dragSlot[i][1].position = (Vector2){wrapper.dragBox[i].position.x - 30, wrapper.dragBox[i].position.y};
+        wrapper.dragSlot[i][1].position = (Vector2){wrapper.dragBox[i].dragData.position.x - 30, wrapper.dragBox[i].dragData.position.y};
         wrapper.dragSlot[i][1].space = (Rectangle){wrapper.dragSlot[i][1].position.x, wrapper.dragSlot[i][1].position.y, 20, 20};
 
         wrapper.dragSlot[i][2].operant = 2;
@@ -94,7 +91,7 @@ void initMatrix(int size){
 
 void updateMatrixLogic(){
     for (int i = 0; i < tableSize; i++){
-        switch (handleDragPosition(&wrapper.dragBox[i].space, &wrapper.dragBox[i].position, wrapper.dragBox[i].defPosition, &wrapper.dragBox[i].dragged, &mouse.mouseDraggs)){
+        switch (handleDragPosition(&wrapper.dragBox[i].dragData, &mouse.mouseDraggs)){
             //      handles visibility of slots
             case 1:{
                 for (int j = 0; j < tableSize; j++){
@@ -170,12 +167,12 @@ void drawMatrixFrame(){
         
         //      renders draggable boxes
         for (int i = 0; i < tableSize; i++){
-            if (!wrapper.dragBox[i].dragged){
-                DrawRectangleRec(wrapper.dragBox[i].space, BLACK);
+            if (!wrapper.dragBox[i].dragData.dragged){
+                DrawRectangleRec(wrapper.dragBox[i].dragData.space, BLACK);
             } else{
-                DrawRectangleRec(wrapper.dragBox[i].space, GREEN);
+                DrawRectangleRec(wrapper.dragBox[i].dragData.space, GREEN);
             }
-            DrawText(TextFormat("="), wrapper.dragBox[i].position.x+6, wrapper.dragBox[i].position.y+1, 20, WHITE);
+            DrawText(TextFormat("="), wrapper.dragBox[i].dragData.position.x+6, wrapper.dragBox[i].dragData.position.y+1, 20, WHITE);
         }
 
         //      renders "-" after swapping rows
